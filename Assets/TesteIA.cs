@@ -9,6 +9,8 @@ public class Enemy : MonoBehaviour
     public float attackCooldown = 2.0f; // Cooldown between attacks.
     public float maxHealth = 100.0f; // Maximum health of the enemy.
     public float healthRegenerationRate = 5.0f; // Health regeneration rate per second when not chasing.
+    public float searchRadius = 10.0f; // Radius within which the enemy searches for health potions.
+    public LayerMask healthPotionLayer; // Layer mask for health potions.
     
     private Transform player; // Reference to the player's Transform.
     private Vector3 spawnPoint; // The enemy's spawn point.
@@ -84,6 +86,13 @@ public class Enemy : MonoBehaviour
             {
                 isChasing = true;
             }
+            
+            // Check if the enemy's health is below a certain threshold and it's not chasing.
+            if (currentHealth < maxHealth * 0.5f)
+            {
+                // Search for a health potion within the search radius.
+                SearchForHealthPotion();
+            }
         }
     }
 
@@ -137,5 +146,30 @@ public class Enemy : MonoBehaviour
 
         // Move the enemy away from the player.
         transform.Translate(direction * speed * Time.deltaTime);
+    }
+
+    private void SearchForHealthPotion()
+    {
+        // Find all nearby objects with the healthPotionLayer within the search radius.
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, searchRadius, healthPotionLayer);
+
+        // Iterate through the found objects.
+        foreach (Collider2D hitCollider in hitColliders)
+        {
+            // You can check the object's tag or use a specific script to identify health potions.
+            // For simplicity, we assume that health potions have a "HealthPotion" tag.
+
+            if (hitCollider.CompareTag("HealthPotion"))
+            {
+                // Found a health potion. Implement logic to pick it up and regain health.
+                // Example: healthRegenerationRate += healthPotion.GetComponent<HealthPotion>().GetHealthBoost();
+                
+                // Destroy the health potion to prevent multiple pickups.
+                Destroy(hitCollider.gameObject);
+                
+                // Exit the search loop after finding a health potion.
+                break;
+            }
+        }
     }
 }

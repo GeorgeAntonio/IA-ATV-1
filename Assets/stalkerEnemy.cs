@@ -1,4 +1,4 @@
-/*using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -268,10 +268,10 @@ public class StalkerEnemy : MonoBehaviour
                         subx = -velocidade;
                     }
                 }
-                /*if (subx < 0)
+                if (subx < 0)
                 {
                     flip(); // Chama a fun��o flip se o personagem estiver se movendo para a esquerda
-                }*/
+                }
                 //Vector2 movimento = new Vector2(transform.position.x + (subx/100), transform.position.y + (suby/100));
                 //Vector2 movimento = new Vector2( subx, suby );
                 transform.Translate(subx / 10, suby / 10, 0);
@@ -280,7 +280,8 @@ public class StalkerEnemy : MonoBehaviour
             }
         }
     }
-    
+
+
     private void flip()
     {
         Vector3 localScale = transform.localScale;
