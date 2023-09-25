@@ -5,11 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - HealthPotion
+  - Enemy
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - SpaceBlock
   - Water
   - UI
   - healthPotionLayer
