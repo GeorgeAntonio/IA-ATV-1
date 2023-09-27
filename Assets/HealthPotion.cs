@@ -1,4 +1,4 @@
-using UnityEngine;
+/*using UnityEngine;
 
 public class HealthPotion : MonoBehaviour
 {
@@ -22,3 +22,4 @@ public class HealthPotion : MonoBehaviour
 
     // You can add more functionality to the health potion if needed.
 }
+*/

@@ -1,4 +1,4 @@
-using System.Collections;
+/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -289,3 +289,4 @@ public class StalkerEnemy : MonoBehaviour
         transform.localScale = localScale;
     }
 }
+*/
