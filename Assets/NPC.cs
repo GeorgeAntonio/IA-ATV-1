@@ -9,13 +9,16 @@ public class NPC : MonoBehaviour
     public int attackDamage = 10;
     public float attackCooldown = 2f;
     public float knockbackForce = 2f;
+    public float patrolCircleRadius = 1f;
+    public float stunDuration = 0.3f; // Stun duration after knockback
 
     private Transform patrolPoint;
     private Rigidbody2D rb;
-    private enum State { Patrol, Chase, Attack, Flee }
+    private enum State { Patrol, Chase, Attack, Flee, Stunned }
     private State currentState = State.Patrol;
     private Vector2 randomWanderTarget;
     private float lastAttackTime = 0f;
+    private float stunEndTime = 0f; // Time when the stun ends
 
     private void Start()
     {
@@ -39,6 +42,9 @@ public class NPC : MonoBehaviour
             case State.Flee:
                 Flee();
                 break;
+            case State.Stunned:
+                HandleStun();
+                break;
         }
     }
 
@@ -46,17 +52,20 @@ public class NPC : MonoBehaviour
     {
         if (patrolPoint != null)
         {
-            Vector2 moveDirection = (patrolPoint.position - transform.position).normalized;
-            rb.velocity = moveDirection * moveSpeed;
+            Vector2 circleDirection = (patrolPoint.position - transform.position).normalized;
+            Vector2 offset = new Vector2(-circleDirection.y, circleDirection.x) * patrolCircleRadius;
+            Vector2 targetPosition = (Vector2)patrolPoint.position + offset;
+
+            Vector2 moveDirection = (targetPosition - (Vector2)transform.position).normalized;
+
+            if (!IsStunned())
+            {
+                rb.velocity = moveDirection * moveSpeed;
+            }
 
             if (CanChase())
             {
                 currentState = State.Chase;
-            }
-
-            if (Vector2.Distance(transform.position, patrolPoint.position) < 0.1f)
-            {
-                patrolPoint = GetRandomPatrolPoint();
             }
         }
         else
@@ -73,7 +82,11 @@ public class NPC : MonoBehaviour
         }
 
         Vector2 moveDirection = (randomWanderTarget - (Vector2)transform.position).normalized;
-        rb.velocity = moveDirection * moveSpeed;
+
+        if (!IsStunned())
+        {
+            rb.velocity = moveDirection * moveSpeed;
+        }
     }
 
     private void Chase()
@@ -83,7 +96,11 @@ public class NPC : MonoBehaviour
         if (npcToChase != null)
         {
             Vector2 moveDirection = (npcToChase.position - transform.position).normalized;
-            rb.velocity = moveDirection * moveSpeed;
+
+            if (!IsStunned())
+            {
+                rb.velocity = moveDirection * moveSpeed;
+            }
 
             if (CanAttack(npcToChase.position))
             {
@@ -110,8 +127,7 @@ public class NPC : MonoBehaviour
             {
                 Vector2 knockbackDirection = (npcToAttack.position - transform.position).normalized;
                 Rigidbody2D targetRB = npcToAttack.GetComponent<Rigidbody2D>();
-                
-                // Apply knockback force to the target NPC
+
                 if (targetRB != null)
                 {
                     targetRB.velocity = knockbackDirection * knockbackForce;
@@ -122,19 +138,12 @@ public class NPC : MonoBehaviour
 
                 lastAttackTime = Time.time;
 
-                // Check if the target NPC's health is zero or below, and destroy it
                 if (targetNPC.health <= 0)
                 {
-                    currentState = State.Patrol;
+                    Destroy(npcToAttack.gameObject);
                 }
-                else if (health < targetNPC.health)
-                {
-                    currentState = State.Flee; // Flee if our health is lower than the target's
-                }
-                else
-                {
-                    currentState = State.Chase;
-                }
+
+                currentState = State.Chase;
             }
             else
             {
@@ -154,16 +163,30 @@ public class NPC : MonoBehaviour
         if (npcToFleeFrom != null)
         {
             Vector2 fleeDirection = (transform.position - npcToFleeFrom.position).normalized;
-            rb.velocity = fleeDirection * moveSpeed;
+
+            if (!IsStunned())
+            {
+                rb.velocity = fleeDirection * moveSpeed;
+            }
 
             if (Vector2.Distance(transform.position, npcToFleeFrom.position) > chaseRange)
             {
-                currentState = State.Patrol; // Return to patrolling when out of chase range
+                currentState = State.Patrol;
             }
         }
         else
         {
-            currentState = State.Patrol; // No NPC to flee from, return to patrolling
+            currentState = State.Patrol;
+        }
+    }
+
+    private void HandleStun()
+    {
+        // Check if the stun duration has elapsed
+        if (Time.time >= stunEndTime)
+        {
+            // Stun has ended, transition back to the previous state
+            currentState = State.Patrol;
         }
     }
 
@@ -243,5 +266,21 @@ public class NPC : MonoBehaviour
     private bool CanAttack(Vector2 targetPosition)
     {
         return Vector2.Distance(transform.position, targetPosition) <= attackRange && Time.time - lastAttackTime >= attackCooldown;
+    }
+
+    private bool IsStunned()
+    {
+        return Time.time < stunEndTime;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("NPC"))
+        {
+            Vector2 knockbackDirection = (transform.position - collision.transform.position).normalized;
+            rb.velocity = knockbackDirection * knockbackForce;
+            currentState = State.Stunned; // Enter the Stunned state
+            stunEndTime = Time.time + stunDuration; // Set the stun end time
+        }
     }
 }
