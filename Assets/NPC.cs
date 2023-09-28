@@ -4,14 +4,15 @@ public class NPC : MonoBehaviour
 {
     public float moveSpeed = 3f;
     public float chaseRange = 5f;
-    public float attackRange = 1.5f; // Range within which the NPC can attack
+    public float attackRange = 1.5f;
     public int health = 100;
     public int attackDamage = 10;
-    public float attackCooldown = 2f; // Cooldown between attacks
+    public float attackCooldown = 2f;
+    public float knockbackForce = 2f;
 
     private Transform patrolPoint;
     private Rigidbody2D rb;
-    private enum State { Patrol, Chase, Attack }
+    private enum State { Patrol, Chase, Attack, Flee }
     private State currentState = State.Patrol;
     private Vector2 randomWanderTarget;
     private float lastAttackTime = 0f;
@@ -34,6 +35,9 @@ public class NPC : MonoBehaviour
                 break;
             case State.Attack:
                 Attack();
+                break;
+            case State.Flee:
+                Flee();
                 break;
         }
     }
@@ -104,17 +108,32 @@ public class NPC : MonoBehaviour
         {
             if (CanAttack(npcToAttack.position))
             {
-                // Perform the attack action here
-                // For simplicity, we'll just reduce the health of the target NPC
+                Vector2 knockbackDirection = (npcToAttack.position - transform.position).normalized;
+                Rigidbody2D targetRB = npcToAttack.GetComponent<Rigidbody2D>();
+                
+                // Apply knockback force to the target NPC
+                if (targetRB != null)
+                {
+                    targetRB.velocity = knockbackDirection * knockbackForce;
+                }
+
                 NPC targetNPC = npcToAttack.GetComponent<NPC>();
                 targetNPC.health -= attackDamage;
 
-                // Add attack cooldown to prevent continuous attacks
                 lastAttackTime = Time.time;
 
+                // Check if the target NPC's health is zero or below, and destroy it
                 if (targetNPC.health <= 0)
                 {
-                    currentState = State.Patrol; // If the target NPC is defeated, go back to patrolling
+                    currentState = State.Patrol;
+                }
+                else if (health < targetNPC.health)
+                {
+                    currentState = State.Flee; // Flee if our health is lower than the target's
+                }
+                else
+                {
+                    currentState = State.Chase;
                 }
             }
             else
@@ -125,6 +144,26 @@ public class NPC : MonoBehaviour
         else
         {
             currentState = State.Patrol;
+        }
+    }
+
+    private void Flee()
+    {
+        Transform npcToFleeFrom = FindNPCToFleeFrom();
+
+        if (npcToFleeFrom != null)
+        {
+            Vector2 fleeDirection = (transform.position - npcToFleeFrom.position).normalized;
+            rb.velocity = fleeDirection * moveSpeed;
+
+            if (Vector2.Distance(transform.position, npcToFleeFrom.position) > chaseRange)
+            {
+                currentState = State.Patrol; // Return to patrolling when out of chase range
+            }
+        }
+        else
+        {
+            currentState = State.Patrol; // No NPC to flee from, return to patrolling
         }
     }
 
@@ -163,6 +202,36 @@ public class NPC : MonoBehaviour
         }
 
         return closestNPC;
+    }
+
+    private Transform FindNPCToFleeFrom()
+    {
+        GameObject[] npcs = GameObject.FindGameObjectsWithTag("NPC");
+
+        Transform npcToFleeFrom = null;
+        float highestHealthDifference = 0f;
+
+        foreach (GameObject npc in npcs)
+        {
+            if (npc != this.gameObject)
+            {
+                float distance = Vector2.Distance(transform.position, npc.transform.position);
+                NPC otherNPC = npc.GetComponent<NPC>();
+
+                if (distance <= attackRange && otherNPC.health > health)
+                {
+                    float healthDifference = otherNPC.health - health;
+
+                    if (healthDifference > highestHealthDifference)
+                    {
+                        highestHealthDifference = healthDifference;
+                        npcToFleeFrom = npc.transform;
+                    }
+                }
+            }
+        }
+
+        return npcToFleeFrom;
     }
 
     private bool CanChase()
