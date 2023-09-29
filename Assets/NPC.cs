@@ -24,6 +24,15 @@ public class NPC : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         patrolPoint = GetRandomPatrolPoint();
+
+        moveSpeed = Random.Range(5f, 8f);
+        chaseRange = Random.Range(7f, 15f);
+        attackRange = Random.Range(3f, 5f);
+        health = Random.Range(50, 130);
+        attackDamage = Random.Range(10, 30);
+        attackCooldown = Random.Range(1.5f, 3.5f);
+        knockbackForce = Random.Range(3f, 7f);
+        stunDuration = Random.Range(0.3f, 1f);
     }
 
     private void Update()
@@ -125,7 +134,7 @@ public class NPC : MonoBehaviour
         {
             if (CanAttack(npcToAttack.position))
             {
-                Vector2 knockbackDirection = (npcToAttack.position - transform.position).normalized;
+                Vector2 knockbackDirection = (transform.position - npcToAttack.position).normalized;
                 Rigidbody2D targetRB = npcToAttack.GetComponent<Rigidbody2D>();
 
                 if (targetRB != null)
