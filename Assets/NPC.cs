@@ -283,4 +283,13 @@ public class NPC : MonoBehaviour
             stunEndTime = Time.time + stunDuration; // Set the stun end time
         }
     }
+
+
+    public static event System.Action<Vector3> OnNPCDestroyed;
+
+    private void OnDestroy()
+    {
+        // Raise the event to notify that this NPC is destroyed
+        OnNPCDestroyed?.Invoke(transform.position);
+    }
 }
