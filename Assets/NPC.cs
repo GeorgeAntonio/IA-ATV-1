@@ -1,3 +1,4 @@
+using Cainos.PixelArtTopDown_Basic;
 using UnityEngine;
 
 public class NPC : MonoBehaviour
@@ -19,6 +20,8 @@ public class NPC : MonoBehaviour
     private Vector2 randomWanderTarget;
     private float lastAttackTime = 0f;
     private float stunEndTime = 0f; // Time when the stun ends
+    private GameObject mainCamera;
+    private NPCSpawner spawner;
 
     private void Start()
     {
@@ -33,6 +36,8 @@ public class NPC : MonoBehaviour
         attackCooldown = Random.Range(1.5f, 3.5f);
         knockbackForce = Random.Range(3f, 7f);
         stunDuration = Random.Range(0.3f, 1f);
+        mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+        spawner = GameObject.FindGameObjectWithTag("NPCspawner").GetComponent<NPCSpawner>();
     }
 
     private void Update()
@@ -150,6 +155,7 @@ public class NPC : MonoBehaviour
                 if (targetNPC.health <= 0)
                 {
                     Destroy(npcToAttack.gameObject);
+                    if(npcToAttack.gameObject == mainCamera.GetComponent<CameraFollow>().target.gameObject) { spawner.isTargetDead = true; }
                 }
 
                 currentState = State.Chase;
