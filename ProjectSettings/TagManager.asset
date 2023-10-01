@@ -7,6 +7,7 @@ TagManager:
   - HealthPotion
   - NPC
   - PatrolPoint
+  - NPCspawner
   layers:
   - Default
   - TransparentFX

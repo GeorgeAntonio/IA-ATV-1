@@ -154,8 +154,8 @@ public class NPC : MonoBehaviour
 
                 if (targetNPC.health <= 0)
                 {
-                    Destroy(npcToAttack.gameObject);
                     if(npcToAttack.gameObject == mainCamera.GetComponent<CameraFollow>().target.gameObject) { spawner.isTargetDead = true; }
+                    Destroy(npcToAttack.gameObject);
                 }
 
                 currentState = State.Chase;

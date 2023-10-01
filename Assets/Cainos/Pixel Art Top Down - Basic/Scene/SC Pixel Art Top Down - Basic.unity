@@ -12140,6 +12140,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1622224631}
   lerpSpeed: 2.5
+  reactivateDistance: 2
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -16444,6 +16445,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   lerpSpeed: 1
+  reactivateDistance: 2
 --- !u!1001 &911999055
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22507,8 +22509,8 @@ GameObject:
   - component: {fileID: 1221351246}
   - component: {fileID: 1221351245}
   m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
+  m_Name: NPCspawner
+  m_TagString: NPCspawner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22530,6 +22532,7 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 1431960141}
   - {fileID: 1034680215}
+  isTargetDead: 0
 --- !u!4 &1221351246
 Transform:
   m_ObjectHideFlags: 0
@@ -34043,6 +34046,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   lerpSpeed: 1
+  reactivateDistance: 2
 --- !u!1001 &2055511854
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -35453,6 +35457,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   lerpSpeed: 1
+  reactivateDistance: 2
 --- !u!4 &1336196914018830829 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8228059593326255414, guid: 84d669757910f1f488023c92e71fcad5,
