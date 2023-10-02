@@ -60,6 +60,7 @@ public class NPC : MonoBehaviour
                 HandleStun();
                 break;
         }
+        Debug.Log(currentState.ToString());
     }
 
     private void Patrol()
