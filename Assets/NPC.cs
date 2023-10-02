@@ -179,6 +179,34 @@ public class NPC : MonoBehaviour
         {
             Vector2 fleeDirection = (transform.position - npcToFleeFrom.position).normalized;
 
+            // Check for the nearest health potion
+            GameObject[] healthPotions = GameObject.FindGameObjectsWithTag("HealthPotion");
+            Transform nearestPotion = null;
+            float nearestPotionDistance = float.MaxValue;
+
+            foreach (GameObject potion in healthPotions)
+            {
+                float distanceToPotion = Vector2.Distance(transform.position, potion.transform.position);
+
+                if (distanceToPotion < nearestPotionDistance)
+                {
+                    nearestPotion = potion.transform;
+                    nearestPotionDistance = distanceToPotion;
+                }
+            }
+
+            // If a nearest potion is found, move towards it
+            if (nearestPotion != null)
+            {
+                Vector2 potionDirection = (nearestPotion.position - transform.position).normalized;
+
+                // Compare distances to decide whether to flee or go for the potion
+                if (nearestPotionDistance < Vector2.Distance(transform.position, npcToFleeFrom.position))
+                {
+                    fleeDirection = potionDirection;
+                }
+            }
+
             if (!IsStunned())
             {
                 rb.velocity = fleeDirection * moveSpeed;
@@ -194,6 +222,7 @@ public class NPC : MonoBehaviour
             currentState = State.Patrol;
         }
     }
+
 
     private void HandleStun()
     {
