@@ -9,7 +9,7 @@ namespace Cainos.PixelArtTopDown_Basic
     {
         public Transform target;
         public float lerpSpeed = 1.0f;
-        public float reactivateDistance = 5.0f; // Distance at which objects should reactivate
+        public float reactivateDistance = 20.0f; // Distance at which objects should reactivate
 
         private Vector3 offset;
         private Vector3 targetPos;
@@ -68,7 +68,7 @@ namespace Cainos.PixelArtTopDown_Basic
                     continue;
 
                 // Check if the collider bounds are outside the camera's frustum
-                if (!GeometryUtility.TestPlanesAABB(frustumPlanes, collider.bounds))
+                if (!GeometryUtility.TestPlanesAABB(frustumPlanes, collider.bounds) && collider.gameObject.layer == 10)
                 {
                     // Deactivate the object if it's outside the view
                     collider.gameObject.SetActive(false);
