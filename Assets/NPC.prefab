@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3585891451612614651}
   - component: {fileID: 439632514514936009}
-  m_Layer: 20
+  m_Layer: 10
   m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 3390605079242703841}
   - component: {fileID: 2410481362873427771}
   - component: {fileID: -8249087494045463472}
-  m_Layer: 20
+  m_Layer: 10
   m_Name: NPC
   m_TagString: NPC
   m_Icon: {fileID: 0}
@@ -294,4 +294,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 3
   chaseRange: 5
+  attackRange: 1.5
   health: 100
+  attackDamage: 10
+  attackCooldown: 2
+  knockbackForce: 2
+  patrolCircleRadius: 1
+  stunDuration: 0.3

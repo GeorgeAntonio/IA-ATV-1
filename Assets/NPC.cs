@@ -288,6 +288,19 @@ public class NPC : MonoBehaviour
         return Time.time < stunEndTime;
     }
 
+    public void Heal(int value, Collision2D potion)
+    {
+        if (health >= 100)
+        {
+            if (health + value > 100)
+            {
+                health = 100;
+            }
+            else health += value;
+            Destroy(potion.gameObject);
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("NPC"))
@@ -296,6 +309,10 @@ public class NPC : MonoBehaviour
             rb.velocity = knockbackDirection * knockbackForce;
             currentState = State.Stunned; // Enter the Stunned state
             stunEndTime = Time.time + stunDuration; // Set the stun end time
+        }
+        if (collision.gameObject.CompareTag("HealthPotion"))
+        {            
+            Heal(30, collision);
         }
     }
 
