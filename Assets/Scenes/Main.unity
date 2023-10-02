@@ -648,6 +648,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8249087494045463472, guid: 3275452839f4d1d4f974224f9b8b2146,
+        type: 3}
+      propertyPath: moveSpeed
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -8249087494045463472, guid: 3275452839f4d1d4f974224f9b8b2146,
+        type: 3}
+      propertyPath: chaseRange
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 898755661094660578, guid: 3275452839f4d1d4f974224f9b8b2146,
         type: 3}
       propertyPath: m_Name
@@ -1276,6 +1286,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PF Props Chest
+      objectReference: {fileID: 0}
+    - target: {fileID: 2055102311959635369, guid: 99597c7b4aa47494fb2b6061505735da,
+        type: 3}
+      propertyPath: m_TagString
+      value: PatrolPoint
       objectReference: {fileID: 0}
     - target: {fileID: 2055102311959635375, guid: 99597c7b4aa47494fb2b6061505735da,
         type: 3}
@@ -16695,12 +16710,12 @@ PrefabInstance:
     - target: {fileID: 4492526826041338568, guid: 3249ab58edccbcb44a8ea87fbc048d10,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -18.683987
+      value: -8.84
       objectReference: {fileID: 0}
     - target: {fileID: 4492526826041338568, guid: 3249ab58edccbcb44a8ea87fbc048d10,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.055351
+      value: 9.53
       objectReference: {fileID: 0}
     - target: {fileID: 4492526826041338568, guid: 3249ab58edccbcb44a8ea87fbc048d10,
         type: 3}
@@ -16746,6 +16761,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: NPC Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 6279426921149804121, guid: 3249ab58edccbcb44a8ea87fbc048d10,
+        type: 3}
+      propertyPath: patrolCircleRadius
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

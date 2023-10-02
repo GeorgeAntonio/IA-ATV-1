@@ -4,13 +4,13 @@ using UnityEngine;
 public class NPC : MonoBehaviour
 {
     public float moveSpeed = 3f;
-    public float chaseRange = 5f;
+    public float chaseRange = 20f;
     public float attackRange = 1.5f;
     public int health = 100;
     public int attackDamage = 10;
     public float attackCooldown = 2f;
     public float knockbackForce = 2f;
-    public float patrolCircleRadius = 1f;
+    public float patrolCircleRadius = 10f;
     public float stunDuration = 0.3f; // Stun duration after knockback
 
     private Transform patrolPoint;

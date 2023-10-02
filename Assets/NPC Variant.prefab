@@ -13,6 +13,16 @@ PrefabInstance:
       propertyPath: health
       value: 70
       objectReference: {fileID: 0}
+    - target: {fileID: -8249087494045463472, guid: 3275452839f4d1d4f974224f9b8b2146,
+        type: 3}
+      propertyPath: moveSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -8249087494045463472, guid: 3275452839f4d1d4f974224f9b8b2146,
+        type: 3}
+      propertyPath: patrolCircleRadius
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 898755661094660578, guid: 3275452839f4d1d4f974224f9b8b2146,
         type: 3}
       propertyPath: m_Name

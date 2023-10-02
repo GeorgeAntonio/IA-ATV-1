@@ -292,12 +292,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12d8cead1f9bc88489822e9ab6967fd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
-  chaseRange: 5
+  moveSpeed: 5
+  chaseRange: 20
   attackRange: 1.5
   health: 100
   attackDamage: 10
   attackCooldown: 2
   knockbackForce: 2
-  patrolCircleRadius: 1
+  patrolCircleRadius: 10
   stunDuration: 0.3
