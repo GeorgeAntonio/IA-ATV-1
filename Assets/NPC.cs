@@ -7,11 +7,13 @@ public class NPC : MonoBehaviour
     public float chaseRange = 20f;
     public float attackRange = 1.5f;
     public int health = 100;
+    public int maxHealth = 100;
     public int attackDamage = 10;
     public float attackCooldown = 2f;
     public float knockbackForce = 2f;
     public float patrolCircleRadius = 10f;
     public float stunDuration = 0.3f; // Stun duration after knockback
+    public float fleeHealthThreshold = 0.2f;
 
     private Transform patrolPoint;
     private Rigidbody2D rb;
@@ -32,6 +34,7 @@ public class NPC : MonoBehaviour
         chaseRange = Random.Range(7f, 15f);
         attackRange = Random.Range(3f, 5f);
         health = Random.Range(50, 130);
+        maxHealth = Random.Range(50, 130);
         attackDamage = Random.Range(10, 30);
         attackCooldown = Random.Range(1.5f, 3.5f);
         knockbackForce = Random.Range(3f, 7f);
@@ -140,6 +143,9 @@ public class NPC : MonoBehaviour
         {
             if (CanAttack(npcToAttack.position))
             {
+                if (health / (float)maxHealth <= fleeHealthThreshold){
+                    currentState = State.Flee;
+                }
                 Vector2 knockbackDirection = (transform.position - npcToAttack.position).normalized;
                 Rigidbody2D targetRB = npcToAttack.GetComponent<Rigidbody2D>();
 
@@ -172,54 +178,27 @@ public class NPC : MonoBehaviour
         }
     }
 
+
     private void Flee()
     {
-        Transform npcToFleeFrom = FindNPCToFleeFrom();
-
-        if (npcToFleeFrom != null)
+        if (health / (float)maxHealth <= fleeHealthThreshold)
         {
-            Vector2 fleeDirection = (transform.position - npcToFleeFrom.position).normalized;
+            // Health is 20% or less, flee towards health potions
+            Transform nearestPotion = FindNearestHealthPotion();
 
-            // Check for the nearest health potion
-            GameObject[] healthPotions = GameObject.FindGameObjectsWithTag("HealthPotion");
-            Transform nearestPotion = null;
-            float nearestPotionDistance = float.MaxValue;
-
-            foreach (GameObject potion in healthPotions)
-            {
-                float distanceToPotion = Vector2.Distance(transform.position, potion.transform.position);
-
-                if (distanceToPotion < nearestPotionDistance)
-                {
-                    nearestPotion = potion.transform;
-                    nearestPotionDistance = distanceToPotion;
-                }
-            }
-
-            // If a nearest potion is found, move towards it
             if (nearestPotion != null)
             {
-                Vector2 potionDirection = (nearestPotion.position - transform.position).normalized;
+                Vector2 fleeDirection = (nearestPotion.position - transform.position).normalized;
 
-                // Compare distances to decide whether to flee or go for the potion
-                if (nearestPotionDistance < Vector2.Distance(transform.position, npcToFleeFrom.position))
+                if (!IsStunned())
                 {
-                    fleeDirection = potionDirection;
+                    rb.velocity = fleeDirection * moveSpeed;
                 }
-            }
-
-            if (!IsStunned())
-            {
-                rb.velocity = fleeDirection * moveSpeed;
-            }
-
-            if (Vector2.Distance(transform.position, npcToFleeFrom.position) > chaseRange)
-            {
-                currentState = State.Patrol;
             }
         }
         else
         {
+            // Health is above the threshold, return to Patrol state
             currentState = State.Patrol;
         }
     }
@@ -316,6 +295,27 @@ public class NPC : MonoBehaviour
     private bool IsStunned()
     {
         return Time.time < stunEndTime;
+    }
+
+    private Transform FindNearestHealthPotion()
+    {
+        GameObject[] healthPotions = GameObject.FindGameObjectsWithTag("HealthPotion");
+
+        Transform nearestPotion = null;
+        float nearestPotionDistance = float.MaxValue;
+
+        foreach (GameObject potion in healthPotions)
+        {
+            float distanceToPotion = Vector2.Distance(transform.position, potion.transform.position);
+
+            if (distanceToPotion < nearestPotionDistance)
+            {
+                nearestPotion = potion.transform;
+                nearestPotionDistance = distanceToPotion;
+            }
+        }
+
+        return nearestPotion;
     }
 
     public void Heal(int value, Collision2D potion)
