@@ -7,6 +7,7 @@ public class NPC : MonoBehaviour
     public float chaseRange = 20f;
     public float attackRange = 1.5f;
     public int health = 100;
+    public int maxHealth = 100;
     public int attackDamage = 10;
     public float attackCooldown = 2f;
     public float knockbackForce = 2f;
@@ -22,6 +23,7 @@ public class NPC : MonoBehaviour
     private float stunEndTime = 0f; // Time when the stun ends
     private GameObject mainCamera;
     private NPCSpawner spawner;
+     public float fleeHealthThreshold = 0.2f;
 
     private void Start()
     {
@@ -32,6 +34,7 @@ public class NPC : MonoBehaviour
         chaseRange = Random.Range(7f, 15f);
         attackRange = Random.Range(3f, 5f);
         health = Random.Range(50, 130);
+        maxHealth = Random.Range(50, 130);
         attackDamage = Random.Range(10, 30);
         attackCooldown = Random.Range(1.5f, 3.5f);
         knockbackForce = Random.Range(3f, 7f);
@@ -140,6 +143,10 @@ public class NPC : MonoBehaviour
         {
             if (CanAttack(npcToAttack.position))
             {
+                if (health / (float)maxHealth <= fleeHealthThreshold){
+                    currentState = State.Flee;
+                    Debug.Log("fugindo");
+                }
                 Vector2 knockbackDirection = (transform.position - npcToAttack.position).normalized;
                 Rigidbody2D targetRB = npcToAttack.GetComponent<Rigidbody2D>();
 

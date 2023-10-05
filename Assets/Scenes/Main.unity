@@ -243,12 +243,14 @@ MonoBehaviour:
   moveSpeed: 5
   chaseRange: 20
   attackRange: 1.5
+  maxHealth: 100
   health: 100
   attackDamage: 10
   attackCooldown: 2
   knockbackForce: 2
   patrolCircleRadius: 10
   stunDuration: 0.3
+  fleeHealthThreshold: 0.2
 --- !u!95 &40465297
 Animator:
   serializedVersion: 5
@@ -1485,12 +1487,12 @@ PrefabInstance:
     - target: {fileID: 7947911505737750448, guid: d730038d263986f4dac93230e1dd62b0,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -11.071989
+      value: -12.44
       objectReference: {fileID: 0}
     - target: {fileID: 7947911505737750448, guid: d730038d263986f4dac93230e1dd62b0,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.6927161
+      value: 1.88
       objectReference: {fileID: 0}
     - target: {fileID: 7947911505737750448, guid: d730038d263986f4dac93230e1dd62b0,
         type: 3}
