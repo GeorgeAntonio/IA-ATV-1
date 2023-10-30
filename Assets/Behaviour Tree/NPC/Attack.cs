@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BehaviorTree;
+using Cainos.PixelArtTopDown_Basic;
 
 public class Attack : Node
 {
@@ -33,7 +34,7 @@ public class Attack : Node
                 if (targetNPC.health <= 0)
                 {
                     if (npcToAttack.gameObject == NPC_BT.controller.mainCamera.GetComponent<CameraFollow>().target.gameObject) { NPC_BT.controller.spawner.isTargetDead = true; }
-                    Destroy(npcToAttack.gameObject);
+                    UnityEngine.Object.Destroy(npcToAttack.gameObject);
                 }
 
                 state = NodeState.RUNNING;

@@ -5,6 +5,7 @@ using BehaviorTree;
 
 public class Chase : Node 
 { 
+    private Transform npcToChase;
     public override NodeState Evaluate()
     {
         npcToChase = NPC_BT.controller.FindClosestNPC();
