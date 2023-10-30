@@ -243,8 +243,8 @@ MonoBehaviour:
   moveSpeed: 5
   chaseRange: 20
   attackRange: 1.5
-  maxHealth: 100
   health: 100
+  maxHealth: 100
   attackDamage: 10
   attackCooldown: 2
   knockbackForce: 2
@@ -17731,7 +17731,9 @@ PrefabInstance:
       propertyPath: patrolCircleRadius
       value: 10
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6279426921149804121, guid: 3249ab58edccbcb44a8ea87fbc048d10, type: 3}
+    - {fileID: 5428889637442558183, guid: 3249ab58edccbcb44a8ea87fbc048d10, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

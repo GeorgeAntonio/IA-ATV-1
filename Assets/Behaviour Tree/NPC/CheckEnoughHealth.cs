@@ -1,18 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BehaviorTree;
 
-public class CheckEnoughHealth : MonoBehaviour
+public class CheckEnoughHealth : Node
 {
-    // Start is called before the first frame update
-    void Start()
+    public override NodeState Evaluate()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (NPC_BT.controller.health / (float)NPC_BT.controller.maxHealth <= NPC_BT.controller.fleeHealthThreshold)
+        {
+            state = NodeState.SUCCESS;            
+        }
+        else
+        {
+            state = NodeState.FAILURE;
+        }
+        return state;
     }
 }
