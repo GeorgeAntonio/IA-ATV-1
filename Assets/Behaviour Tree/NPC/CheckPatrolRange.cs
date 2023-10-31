@@ -14,7 +14,7 @@ public class CheckPatrolRange : Node
             Vector2 targetPosition = (Vector2)NPC_BT.controller.patrolPoint.position + offset;
 
             NPC_BT.controller.moveDirection = (targetPosition - (Vector2)NPC_BT.controller.transform.position).normalized;
-            state = NodeState.SUCCESS;
+            state = NodeState.RUNNING;
         }
         else
         {

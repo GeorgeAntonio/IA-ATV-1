@@ -26,7 +26,7 @@ public class Attack : Node
                     targetRB.velocity = knockbackDirection * NPC_BT.controller.knockbackForce;
                 }
 
-                NPC targetNPC = npcToAttack.GetComponent<NPC>();
+                Controller targetNPC = npcToAttack.GetComponent<Controller>();
                 targetNPC.health -= NPC_BT.controller.attackDamage;
 
                 NPC_BT.controller.lastAttackTime = Time.time;

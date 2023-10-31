@@ -41,6 +41,38 @@ public class Controller : MonoBehaviour {
     
     }
 
+    private void Start()
+    { 
+
+        rb = GetComponent<Rigidbody2D>();
+        patrolPoint = GetRandomPatrolPoint();
+
+        moveSpeed = Random.Range(5f, 8f);
+        chaseRange = Random.Range(7f, 15f);
+        attackRange = Random.Range(3f, 5f);
+        health = Random.Range(50, 130);
+        maxHealth = Random.Range(50, 130);
+        attackDamage = Random.Range(10, 30);
+        attackCooldown = Random.Range(1.5f, 3.5f);
+        knockbackForce = Random.Range(3f, 7f);
+        stunDuration = Random.Range(0.3f, 1f);
+        mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+        spawner = GameObject.FindGameObjectWithTag("NPCspawner").GetComponent<NPCSpawner>();
+    }
+
+    private Transform GetRandomPatrolPoint()
+    {
+        GameObject[] patrolPoints = GameObject.FindGameObjectsWithTag("PatrolPoint");
+
+        if (patrolPoints.Length == 0)
+        {
+            return null;
+        }
+
+        int randomIndex = Random.Range(0, patrolPoints.Length);
+        return patrolPoints[randomIndex].transform;
+    }
+
     public Transform FindClosestNPC()
     {
         GameObject[] npcs = GameObject.FindGameObjectsWithTag("NPC");
