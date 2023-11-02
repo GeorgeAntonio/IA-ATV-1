@@ -15,7 +15,7 @@ public class Controller : MonoBehaviour {
     public float stunDuration = 0.3f; // Stun duration after knockback
     public float fleeHealthThreshold = 0.2f;
 
-    public Transform patrolPoint, npcToChase;
+    public Transform patrolPoint, npcToChase, npcToAttack;
     public Transform[] wayPoints;
     public Rigidbody2D rb;
     public GameObject mainCamera;
@@ -24,22 +24,6 @@ public class Controller : MonoBehaviour {
     public float lastAttackTime = 0f;
     public float stunEndTime = 0f; // Time when the stun ends
     public Vector2 moveDirection;
-
-    public static Controller Instance { get; private set; }
-
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-        }
-    
-    }
 
     private void Start()
     { 
