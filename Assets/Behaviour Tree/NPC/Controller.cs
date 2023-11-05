@@ -89,6 +89,7 @@ public class Controller : MonoBehaviour {
 
     public bool CanAttack(Vector2 targetPosition)
     {
+        Debug.Log("ataca");
         return Vector2.Distance(transform.position, targetPosition) <= attackRange && Time.time - lastAttackTime >= attackCooldown;
     }
 
