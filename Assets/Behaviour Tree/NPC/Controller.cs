@@ -15,8 +15,7 @@ public class Controller : MonoBehaviour {
     public float stunDuration = 0.3f; // Stun duration after knockback
     public float fleeHealthThreshold = 0.2f;
 
-    public Transform patrolPoint, npcToChase, npcToAttack;
-    public Transform[] wayPoints;
+    public Transform patrolPoint, npcToChase, npcToAttack;    
     public Rigidbody2D rb;
     public GameObject mainCamera;
     public NPCSpawner spawner;
