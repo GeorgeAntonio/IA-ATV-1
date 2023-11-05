@@ -16,7 +16,7 @@ public class Chase : Node
 
             if (!NPC_BT.controller.IsStunned())
             {
-                NPC_BT.controller.rb.velocity = moveDirection * NPC_BT.controller.moveSpeed;
+                NPC_BT.controller.rb.velocity = NPC_BT.controller.moveDirection * NPC_BT.controller.moveSpeed;
             }
 
             if (NPC_BT.controller.CanAttack(NPC_BT.controller.npcToChase.position))

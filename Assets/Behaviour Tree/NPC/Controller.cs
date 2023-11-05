@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Controller : MonoBehaviour { 
-    public float moveSpeed = 3f;
+    public float moveSpeed = 5f;
     public float chaseRange = 20f;
     public float attackRange = 1.5f;
     public int health = 100;
@@ -60,6 +60,7 @@ public class Controller : MonoBehaviour {
     public Transform FindClosestNPC()
     {
         GameObject[] npcs = GameObject.FindGameObjectsWithTag("NPC");
+        
 
         Transform closestNPC = null;
         float closestDistance = float.MaxValue;
@@ -76,6 +77,7 @@ public class Controller : MonoBehaviour {
                     closestDistance = distance;
                 }
             }
+            Debug.Log(npc.ToString());
         }
 
         return closestNPC;
