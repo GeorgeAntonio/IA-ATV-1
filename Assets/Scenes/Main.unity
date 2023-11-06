@@ -514,7 +514,6 @@ MonoBehaviour:
   patrolPoint: {fileID: 0}
   npcToChase: {fileID: 0}
   npcToAttack: {fileID: 0}
-  wayPoints: []
   rb: {fileID: 0}
   mainCamera: {fileID: 0}
   spawner: {fileID: 0}
@@ -2145,7 +2144,7 @@ PrefabInstance:
     - target: {fileID: 2055102311959635369, guid: 99597c7b4aa47494fb2b6061505735da,
         type: 3}
       propertyPath: m_TagString
-      value: Finish
+      value: PatrolPoint
       objectReference: {fileID: 0}
     - target: {fileID: 2055102311959635375, guid: 99597c7b4aa47494fb2b6061505735da,
         type: 3}
@@ -17873,7 +17872,7 @@ GameObject:
   - component: {fileID: 1537166509}
   m_Layer: 0
   m_Name: ExitMaze
-  m_TagString: PatrolPoint
+  m_TagString: Finish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
