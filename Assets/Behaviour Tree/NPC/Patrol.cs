@@ -5,12 +5,19 @@ using BehaviorTree;
 
 public class Patrol : Node
 {
-    public override NodeState Evaluate()
+
+    private Controller controller;
+    public Patrol(Controller controller)
     {
+        this.controller = controller;
+    }
+
+    public override NodeState Evaluate()
+    {        
         Debug.Log(this.ToString());
-        if (!NPC_BT.controller.IsStunned())
+        if (!controller.IsStunned())
         {
-            NPC_BT.controller.rb.velocity = NPC_BT.controller.moveDirection * NPC_BT.controller.moveSpeed;
+            controller.rb.velocity = controller.moveDirection * controller.moveSpeed;
         }
 
            

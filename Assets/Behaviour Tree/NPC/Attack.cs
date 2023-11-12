@@ -6,35 +6,40 @@ using Cainos.PixelArtTopDown_Basic;
 
 public class Attack : Node
 {
-    public override NodeState Evaluate()
+    private Controller controller;
+    public Attack(Controller controller)
     {
-        NPC_BT.controller.npcToAttack = NPC_BT.controller.FindClosestNPC();
+        this.controller = controller;
+    }
+    public override NodeState Evaluate()
+    {        
+        controller.npcToAttack = controller.FindClosestNPC();
 
-        if (NPC_BT.controller.npcToAttack != null)
+        if (controller.npcToAttack != null)
         {
-            if (NPC_BT.controller.CanAttack(NPC_BT.controller.npcToAttack.position))
+            if (controller.CanAttack(controller.npcToAttack.position))
             {
-                if (NPC_BT.controller.health / (float)NPC_BT.controller.maxHealth <= NPC_BT.controller.fleeHealthThreshold)
+                if (controller.health / (float)controller.maxHealth <= controller.fleeHealthThreshold)
                 {
                     state = NodeState.SUCCESS;
                 }
-                Vector2 knockbackDirection = (NPC_BT.controller.transform.position - NPC_BT.controller.npcToAttack.position).normalized;
-                Rigidbody2D targetRB = NPC_BT.controller.npcToAttack.GetComponent<Rigidbody2D>();
+                Vector2 knockbackDirection = (controller.transform.position - controller.npcToAttack.position).normalized;
+                Rigidbody2D targetRB = controller.npcToAttack.GetComponent<Rigidbody2D>();
 
                 if (targetRB != null)
                 {
-                    targetRB.velocity = knockbackDirection * NPC_BT.controller.knockbackForce;
+                    targetRB.velocity = knockbackDirection * controller.knockbackForce;
                 }
 
-                Controller targetNPC = NPC_BT.controller.npcToAttack.GetComponent<Controller>();
-                targetNPC.health -= NPC_BT.controller.attackDamage;
+                Controller targetNPC = controller.npcToAttack.GetComponent<Controller>();
+                targetNPC.health -= controller.attackDamage;
 
-                NPC_BT.controller.lastAttackTime = Time.time;
+                controller.lastAttackTime = Time.time;
 
                 if (targetNPC.health <= 0)
                 {
-                    if (NPC_BT.controller.npcToAttack.gameObject == NPC_BT.controller.mainCamera.GetComponent<CameraFollow>().target.gameObject) { NPC_BT.controller.spawner.isTargetDead = true; }
-                    UnityEngine.Object.Destroy(NPC_BT.controller.npcToAttack.gameObject);
+                    if (controller.npcToAttack.gameObject == controller.mainCamera.GetComponent<CameraFollow>().target.gameObject) { controller.spawner.isTargetDead = true; }
+                    UnityEngine.Object.Destroy(controller.npcToAttack.gameObject);
                 }
 
                 state = NodeState.RUNNING;

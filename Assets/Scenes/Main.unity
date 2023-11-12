@@ -514,7 +514,6 @@ MonoBehaviour:
   patrolPoint: {fileID: 0}
   npcToChase: {fileID: 0}
   npcToAttack: {fileID: 0}
-  wayPoints: []
   rb: {fileID: 0}
   mainCamera: {fileID: 0}
   spawner: {fileID: 0}
@@ -23597,12 +23596,12 @@ PrefabInstance:
     - target: {fileID: 5401752458764932146, guid: 5dae8f53b55fc6345b94e1944abb8485,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.91
+      value: -8.65
       objectReference: {fileID: 0}
     - target: {fileID: 5401752458764932146, guid: 5dae8f53b55fc6345b94e1944abb8485,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -16.13
+      value: -19.21
       objectReference: {fileID: 0}
     - target: {fileID: 5401752458764932146, guid: 5dae8f53b55fc6345b94e1944abb8485,
         type: 3}

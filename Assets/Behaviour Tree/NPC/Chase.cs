@@ -6,24 +6,30 @@ using BehaviorTree;
 public class Chase : Node 
 { 
     private Transform npcToChase;
-    public override NodeState Evaluate()
+
+    private Controller controller;
+    public Chase(Controller controller)
     {
-        NPC_BT.controller.npcToChase = NPC_BT.controller.FindClosestNPC();
+        this.controller = controller;
+    }
+    public override NodeState Evaluate()
+    {        
+        controller.npcToChase = controller.FindClosestNPC();
 
         if (npcToChase != null)
         {
-            Vector2 moveDirection = (NPC_BT.controller.npcToChase.position - NPC_BT.controller.transform.position).normalized;
+            Vector2 moveDirection = (controller.npcToChase.position - controller.transform.position).normalized;
 
-            if (!NPC_BT.controller.IsStunned())
+            if (!controller.IsStunned())
             {
-                NPC_BT.controller.rb.velocity = NPC_BT.controller.moveDirection * NPC_BT.controller.moveSpeed;
+                controller.rb.velocity = controller.moveDirection * controller.moveSpeed;
             }
 
-            if (NPC_BT.controller.CanAttack(NPC_BT.controller.npcToChase.position))
+            if (controller.CanAttack(controller.npcToChase.position))
             {
                 state = NodeState.SUCCESS;
             }
-            else if (!NPC_BT.controller.CanChase())
+            else if (!controller.CanChase())
             {
                 state = NodeState.FAILURE;
             }

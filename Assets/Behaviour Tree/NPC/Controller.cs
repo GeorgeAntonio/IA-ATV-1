@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Controller : MonoBehaviour { 
@@ -24,9 +25,9 @@ public class Controller : MonoBehaviour {
     public float stunEndTime = 0f; // Time when the stun ends
     public Vector2 moveDirection;
 
+    
     private void Start()
-    { 
-
+    {         
         rb = GetComponent<Rigidbody2D>();
         patrolPoint = GetRandomPatrolPoint();
 

@@ -5,9 +5,15 @@ using BehaviorTree;
 
 public class CheckEnemyAttackRange : Node
 {
-    public override NodeState Evaluate()
+
+    private Controller controller;
+    public CheckEnemyAttackRange(Controller controller)
     {
-        if (NPC_BT.controller.CanAttack(NPC_BT.controller.npcToChase.position))
+        this.controller = controller;
+    }
+    public override NodeState Evaluate()
+    {       
+        if (controller.CanAttack(controller.npcToChase.position))
         {
             state = NodeState.SUCCESS;
         }

@@ -5,19 +5,26 @@ using BehaviorTree;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class Idle : Node
-{    
+{
+
+    private Controller controller;
+    public Idle(Controller controller)
+    {
+        this.controller = controller;
+    }
+
     public override NodeState Evaluate()
     {
-        if (NPC_BT.controller.randomWanderTarget == Vector2.zero || Vector2.Distance(NPC_BT.controller.transform.position, NPC_BT.controller.randomWanderTarget) < 1f)
+        if (controller.randomWanderTarget == Vector2.zero || Vector2.Distance(controller.transform.position,controller.randomWanderTarget) < 1f)
         {
-            NPC_BT.controller.randomWanderTarget = (Vector2)NPC_BT.controller.transform.position + Random.insideUnitCircle * 5f;
+            controller.randomWanderTarget = (Vector2)controller.transform.position + Random.insideUnitCircle * 5f;
         }
 
-        Vector2 moveDirection = (NPC_BT.controller.randomWanderTarget - (Vector2)NPC_BT.controller.transform.position).normalized;
+        Vector2 moveDirection = (controller.randomWanderTarget - (Vector2)controller.transform.position).normalized;
 
-        if (!NPC_BT.controller.IsStunned())
+        if (!controller.IsStunned())
         {
-            NPC_BT.controller.rb.velocity = moveDirection * NPC_BT.controller.moveSpeed;
+            controller.rb.velocity = moveDirection * controller.moveSpeed;
             state = NodeState.RUNNING;
         }
 

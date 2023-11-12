@@ -5,9 +5,14 @@ using BehaviorTree;
 
 public class CheckEnoughHealth : Node
 {
-    public override NodeState Evaluate()
+    private Controller controller;
+    public CheckEnoughHealth(Controller controller)
     {
-        if (NPC_BT.controller.health / (float)NPC_BT.controller.maxHealth <= NPC_BT.controller.fleeHealthThreshold)
+        this.controller = controller;
+    }
+    public override NodeState Evaluate()
+    {        
+        if (controller.health / (float)controller.maxHealth <= controller.fleeHealthThreshold)
         {
             state = NodeState.SUCCESS;            
         }

@@ -6,6 +6,11 @@ using BehaviorTree;
 
 public class Flee : Node
 {
+    private Controller controller;
+    public Flee(Controller controller)
+    {
+        this.controller = controller;
+    }
     private Transform FindNPCToFleeFrom()
     {
         GameObject[] npcs = GameObject.FindGameObjectsWithTag("NPC");
@@ -15,14 +20,14 @@ public class Flee : Node
 
         foreach (GameObject npc in npcs)
         {
-            if (npc != NPC_BT.controller.gameObject)
+            if (npc != controller.gameObject)
             {
-                float distance = Vector2.Distance(NPC_BT.controller.transform.position, npc.transform.position);
+                float distance = Vector2.Distance(controller.transform.position, npc.transform.position);
                 NPC otherNPC = npc.GetComponent<NPC>();
 
-                if (distance <= NPC_BT.controller.attackRange && otherNPC.health > NPC_BT.controller.health)
+                if (distance <= controller.attackRange && otherNPC.health > controller.health)
                 {
-                    float healthDifference = otherNPC.health - NPC_BT.controller.health;
+                    float healthDifference = otherNPC.health - controller.health;
 
                     if (healthDifference > highestHealthDifference)
                     {
@@ -44,7 +49,7 @@ public class Flee : Node
 
         foreach (GameObject potion in healthPotions)
         {
-            float distanceToPotion = Vector2.Distance(NPC_BT.controller.transform.position, potion.transform.position);
+            float distanceToPotion = Vector2.Distance(controller.transform.position, potion.transform.position);
 
             if (distanceToPotion < nearestPotionDistance)
             {
@@ -64,11 +69,11 @@ public class Flee : Node
 
         if (nearestPotion != null)
         {
-            Vector2 fleeDirection = (nearestPotion.position - NPC_BT.controller.transform.position).normalized;
+            Vector2 fleeDirection = (nearestPotion.position - controller.transform.position).normalized;
             state = NodeState.RUNNING;
-            if (!NPC_BT.controller.IsStunned())
+            if (!controller.IsStunned())
             {
-                NPC_BT.controller.rb.velocity = fleeDirection * NPC_BT.controller.moveSpeed;
+                controller.rb.velocity = fleeDirection * controller.moveSpeed;
                 state = NodeState.FAILURE;
             }
         }

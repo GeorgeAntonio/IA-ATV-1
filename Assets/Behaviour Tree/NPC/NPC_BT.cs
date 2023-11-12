@@ -1,20 +1,21 @@
 using BehaviorTree;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class NPC_BT : BehaviorTree.Tree
 {
-    public static Controller controller;    
+    private Controller controller;
     protected override Node SetupTree()
     {
         controller = gameObject.GetComponent<Controller>();
-        Node root = new Sequence(new List<Node>
+        Node root = new BehaviorTree.Sequence(new List<Node>
         {
             new Selector(new List<Node>{
-                new Sequence(new List<Node> { new CheckEnoughHealth(), new CheckEnemyOnRange(),  new Flee()}),
-                new Sequence(new List<Node> { new CheckEnemyOnRange(), new Chase(), new CheckEnemyAttackRange(), new Attack() }),
-                new Sequence(new List<Node>{ new CheckPatrolRange(), new Patrol()}),
-                new Idle()
+                new BehaviorTree.Sequence(new List<Node> { new CheckEnoughHealth(controller), new CheckEnemyOnRange(controller),  new Flee(controller) }),
+                new BehaviorTree.Sequence(new List<Node> { new CheckEnemyOnRange(controller), new Chase(controller), new CheckEnemyAttackRange(controller), new Attack(controller) }),
+                new BehaviorTree.Sequence(new List<Node>{ new CheckPatrolRange(controller), new Patrol(controller)}),
+                new Idle(controller)
             })
         }); 
         return root;
