@@ -1,8 +1,15 @@
+using UnityEngine;
+using Unity.VisualScripting;
 using System.Collections;
 using System.Collections.Generic;
+<<<<<<< Updated upstream
 using UnityEngine;
+=======
+>>>>>>> Stashed changes
 
-public class Controller : MonoBehaviour { 
+public class Controller : MonoBehaviour
+{
+
     public float moveSpeed = 5f;
     public float chaseRange = 20f;
     public float attackRange = 1.5f;
@@ -26,9 +33,14 @@ public class Controller : MonoBehaviour {
     public float lastAttackTime = 0f;
     public float stunEndTime = 0f; // Time when the stun ends
     public Vector2 moveDirection;
+    public AStarPathfinding AStarPathfinding { get; set; }
 
     private void Start()
+<<<<<<< Updated upstream
     { 
+=======
+    {
+>>>>>>> Stashed changes
 
         rb = GetComponent<Rigidbody2D>();
         patrolPoint = GetRandomPatrolPoint();
@@ -44,7 +56,17 @@ public class Controller : MonoBehaviour {
         stunDuration = Random.Range(0.3f, 1f);
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         spawner = GameObject.FindGameObjectWithTag("NPCspawner").GetComponent<NPCSpawner>();
+<<<<<<< Updated upstream
         NPC_BT npcBehaviorTree = new NPC_BT(gameObject);
+=======
+        // Inicialize o AStarPathfinding
+        AStarPathfinding = GetComponent<AStarPathfinding>();
+        if (AStarPathfinding == null)
+        {
+            // Se o componente AStarPathfinding não estiver no mesmo objeto, ajuste para encontrar o componente onde estiver.
+            AStarPathfinding = GetComponentInChildren<AStarPathfinding>();
+        }
+>>>>>>> Stashed changes
     }
 
     private Transform GetRandomPatrolPoint()
@@ -63,7 +85,6 @@ public class Controller : MonoBehaviour {
     public Transform FindClosestNPC()
     {
         GameObject[] npcs = GameObject.FindGameObjectsWithTag("NPC");
-        
 
         Transform closestNPC = null;
         float closestDistance = float.MaxValue;
@@ -80,7 +101,6 @@ public class Controller : MonoBehaviour {
                     closestDistance = distance;
                 }
             }
-            Debug.Log(npc.ToString());
         }
 
         return closestNPC;
@@ -94,7 +114,6 @@ public class Controller : MonoBehaviour {
 
     public bool CanAttack(Vector2 targetPosition)
     {
-        Debug.Log("ataca");
         return Vector2.Distance(transform.position, targetPosition) <= attackRange && Time.time - lastAttackTime >= attackCooldown;
     }
 
@@ -102,5 +121,4 @@ public class Controller : MonoBehaviour {
     {
         return Time.time < stunEndTime;
     }
-
 }
