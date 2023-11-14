@@ -13,41 +13,23 @@ public class Attack : Node
     }
     public override NodeState Evaluate()
     {        
-        controller.npcToAttack = controller.FindClosestNPC();
+        Debug.Log(this.ToString());        
 
-        if (controller.npcToAttack != null)
-        {
-            if (controller.CanAttack(controller.npcToAttack.position))
+        if (controller.npcTarget != null)
+        {                       
+            Vector2 knockbackDirection = (controller.transform.position - controller.npcTarget.position).normalized;            
+            controller.npcTarget.GetComponent<Rigidbody2D>().velocity = knockbackDirection * controller.knockbackForce;            
+            Controller targetNPCController = controller.npcTarget.GetComponent<Controller>();
+            targetNPCController.health -= controller.attackDamage;
+            controller.lastAttackTime = Time.time;
+
+            if (targetNPCController.health <= 0)
             {
-                if (controller.health / (float)controller.maxHealth <= controller.fleeHealthThreshold)
-                {
-                    state = NodeState.SUCCESS;
-                }
-                Vector2 knockbackDirection = (controller.transform.position - controller.npcToAttack.position).normalized;
-                Rigidbody2D targetRB = controller.npcToAttack.GetComponent<Rigidbody2D>();
-
-                if (targetRB != null)
-                {
-                    targetRB.velocity = knockbackDirection * controller.knockbackForce;
-                }
-
-                Controller targetNPC = controller.npcToAttack.GetComponent<Controller>();
-                targetNPC.health -= controller.attackDamage;
-
-                controller.lastAttackTime = Time.time;
-
-                if (targetNPC.health <= 0)
-                {
-                    if (controller.npcToAttack.gameObject == controller.mainCamera.GetComponent<CameraFollow>().target.gameObject) { controller.spawner.isTargetDead = true; }
-                    UnityEngine.Object.Destroy(controller.npcToAttack.gameObject);
-                }
-
-                state = NodeState.RUNNING;
+                if (controller.npcTarget.gameObject == controller.mainCamera.GetComponent<CameraFollow>().target.gameObject) { controller.spawner.isTargetDead = true; }
+                UnityEngine.Object.Destroy(controller.npcTarget.gameObject);
             }
-            else
-            {
-                state = NodeState.FAILURE;
-            }
+
+            state = NodeState.RUNNING;          
         }
         else
         {

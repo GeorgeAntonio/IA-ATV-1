@@ -64,21 +64,22 @@ public class Flee : Node
 
     public override NodeState Evaluate()
     {
+        Vector2 fleeDirection;
         // Health is 20% or less, flee towards health potions
         Transform nearestPotion = FindNearestHealthPotion();
-
-        if (nearestPotion != null)
-        {
-            Vector2 fleeDirection = (nearestPotion.position - controller.transform.position).normalized;
-            state = NodeState.RUNNING;
-            if (!controller.IsStunned())
+        Debug.Log(this.ToString());
+        if (!controller.IsStunned())
+        {            
+            if (nearestPotion != null)
             {
-                controller.rb.velocity = fleeDirection * controller.moveSpeed;
-                state = NodeState.FAILURE;
+                fleeDirection = (nearestPotion.position - controller.transform.position).normalized;                
             }
-        }
-        else {
-            state = NodeState.FAILURE;
+            else
+            {
+                fleeDirection = controller.npcTarget.gameObject.transform.position * -1;
+            }
+            controller.rb.velocity = fleeDirection * controller.moveSpeed;
+            state = NodeState.RUNNING;
         }
         return state;
     }

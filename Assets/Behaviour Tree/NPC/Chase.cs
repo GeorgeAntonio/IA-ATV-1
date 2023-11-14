@@ -5,7 +5,6 @@ using BehaviorTree;
 
 public class Chase : Node 
 { 
-    private Transform npcToChase;
 
     private Controller controller;
     public Chase(Controller controller)
@@ -13,26 +12,12 @@ public class Chase : Node
         this.controller = controller;
     }
     public override NodeState Evaluate()
-    {        
-        controller.npcToChase = controller.FindClosestNPC();
-
-        if (npcToChase != null)
+    {                     
+        if (controller.npcTarget != null && !controller.IsStunned())
         {
-            Vector2 moveDirection = (controller.npcToChase.position - controller.transform.position).normalized;
-
-            if (!controller.IsStunned())
-            {
-                controller.rb.velocity = controller.moveDirection * controller.moveSpeed;
-            }
-
-            if (controller.CanAttack(controller.npcToChase.position))
-            {
-                state = NodeState.SUCCESS;
-            }
-            else if (!controller.CanChase())
-            {
-                state = NodeState.FAILURE;
-            }
+            controller.moveDirection = (controller.npcTarget.position - controller.transform.position).normalized;            
+            controller.rb.velocity = controller.moveDirection * controller.moveSpeed;
+            state = NodeState.RUNNING;          
         }
         else
         {

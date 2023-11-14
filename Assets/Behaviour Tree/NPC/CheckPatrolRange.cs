@@ -12,8 +12,8 @@ public class CheckPatrolRange : Node
     } 
 
     public override NodeState Evaluate()
-    {       
-        
+    {
+        Debug.Log(this.ToString());
         if (controller.patrolPoint != null)
         {
             Vector2 circleDirection = (controller.patrolPoint.position - controller.transform.position).normalized;
