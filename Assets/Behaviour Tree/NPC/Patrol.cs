@@ -13,16 +13,13 @@ public class Patrol : Node
     }
 
     public override NodeState Evaluate()
-    {        
+    {
         Debug.Log(this.ToString());
         if (!controller.IsStunned())
         {
-            controller.rb.velocity = controller.moveDirection * controller.moveSpeed;
+            controller.rb.velocity = controller.moveDirection * controller.moveSpeed;            
         }
-
-           
-        state = NodeState.RUNNING; 
-        return state;
+        return NodeState.RUNNING;
     }
 
 }

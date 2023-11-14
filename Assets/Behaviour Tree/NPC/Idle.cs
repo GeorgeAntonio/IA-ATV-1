@@ -15,6 +15,7 @@ public class Idle : Node
 
     public override NodeState Evaluate()
     {
+        Debug.Log(this.ToString());
         if (controller.randomWanderTarget == Vector2.zero || Vector2.Distance(controller.transform.position,controller.randomWanderTarget) < 1f)
         {
             controller.randomWanderTarget = (Vector2)controller.transform.position + Random.insideUnitCircle * 5f;
@@ -27,8 +28,7 @@ public class Idle : Node
             controller.rb.velocity = moveDirection * controller.moveSpeed;
             state = NodeState.RUNNING;
         }
-
-        state = NodeState.SUCCESS;
+        
         return state;
     }
 }
