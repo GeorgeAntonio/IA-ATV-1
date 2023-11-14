@@ -12,13 +12,10 @@ public class CheckEnemyOnRange : Node
     }
 
     public override NodeState Evaluate()
-    {
-        Debug.Log(this.ToString());
-        Transform npcTarget = controller.FindClosestNPC();
-        if (npcTarget != null && npcTarget.gameObject.GetComponent<Controller>().npcTarget == controller.gameObject)
+    {        
+        if (controller.CanChase())
         {
-            controller.npcTarget = npcTarget;
-            state = NodeState.SUCCESS;
+            state = NodeState.SUCCESS;        
         }
         else
         {

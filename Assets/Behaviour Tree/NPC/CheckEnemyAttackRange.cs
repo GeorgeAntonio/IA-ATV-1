@@ -12,11 +12,9 @@ public class CheckEnemyAttackRange : Node
         this.controller = controller;
     }
     public override NodeState Evaluate()
-    {
-        Debug.Log(this.ToString());
-        Transform npcTarget = controller.FindClosestNPC();
-        if (npcTarget != null && controller.CanAttack(npcTarget.position))
-        {                         
+    {       
+        if (controller.CanAttack(controller.npcToChase.position))
+        {
             state = NodeState.SUCCESS;
         }
         else
