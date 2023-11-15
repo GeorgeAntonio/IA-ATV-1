@@ -22,14 +22,14 @@ public class Attack : Node
             Controller targetNPCController = controller.npcTarget.GetComponent<Controller>();
             targetNPCController.health -= controller.attackDamage;
             controller.lastAttackTime = Time.time;
-
+            targetNPCController.stunEndTime = Time.time + targetNPCController.stunDuration;
             if (targetNPCController.health <= 0)
             {
                 if (controller.npcTarget.gameObject == controller.mainCamera.GetComponent<CameraFollow>().target.gameObject) { controller.spawner.isTargetDead = true; }
                 UnityEngine.Object.Destroy(controller.npcTarget.gameObject);
             }
 
-            state = NodeState.RUNNING;          
+            state = NodeState.SUCCESS;        
         }
         else
         {

@@ -121,7 +121,7 @@ Transform:
   m_Children:
   - {fileID: 1297466808696073180}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8099319526550205031
 MonoBehaviour:
@@ -307,19 +307,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 3
   chaseRange: 20
-  attackRange: 1.5
+  attackRange: 0.5
   health: 100
   maxHealth: 100
-  attackDamage: 10
+  attackDamage: 0
+  healthPotionValue: 50
   attackCooldown: 2
   knockbackForce: 2
   patrolCircleRadius: 10
   stunDuration: 0.3
   fleeHealthThreshold: 0.2
+  isHealing: 0
   patrolPoint: {fileID: 0}
   npcToChase: {fileID: 0}
   npcToAttack: {fileID: 0}
-  wayPoints: []
+  npcTarget: {fileID: 0}
+  selectedPotion: {fileID: 0}
   rb: {fileID: 0}
   mainCamera: {fileID: 0}
   spawner: {fileID: 0}
