@@ -58,7 +58,7 @@ public class Controller : MonoBehaviour {
 
         moveSpeed = Random.Range(5f, 8f);
         chaseRange = Random.Range(7f, 15f);
-        attackRange = Random.Range(3f, 5f);
+        attackRange = Random.Range(1f, 2f);
         health = Random.Range(50, 130);
         maxHealth = Random.Range(50, 130);
         attackDamage = Random.Range(10, 30);

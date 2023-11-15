@@ -7,34 +7,57 @@ using Cainos.PixelArtTopDown_Basic;
 public class Attack : Node
 {
     private Controller controller;
+    private float timeSinceLastAttack;
+
     public Attack(Controller controller)
     {
         this.controller = controller;
+        this.timeSinceLastAttack = 0f;
     }
+
     public override NodeState Evaluate()
-    {        
-        Debug.Log(this.ToString());        
+    {
+        Debug.Log(this.ToString());
 
         if (controller.npcTarget != null)
-        {                       
-            Vector2 knockbackDirection = (controller.transform.position - controller.npcTarget.position).normalized;            
-            controller.npcTarget.GetComponent<Rigidbody2D>().velocity = knockbackDirection * controller.knockbackForce;            
-            Controller targetNPCController = controller.npcTarget.GetComponent<Controller>();
-            targetNPCController.health -= controller.attackDamage;
-            controller.lastAttackTime = Time.time;
-            targetNPCController.stunEndTime = Time.time + targetNPCController.stunDuration;
-            if (targetNPCController.health <= 0)
+        {
+            // Check if enough time has passed since the last attack
+            if (Time.time - timeSinceLastAttack >= controller.attackCooldown)
             {
-                if (controller.npcTarget.gameObject == controller.mainCamera.GetComponent<CameraFollow>().target.gameObject) { controller.spawner.isTargetDead = true; }
-                UnityEngine.Object.Destroy(controller.npcTarget.gameObject);
-            }
+                Vector2 knockbackDirection = (controller.transform.position - controller.npcTarget.position).normalized;
+                controller.npcTarget.GetComponent<Rigidbody2D>().velocity = knockbackDirection * controller.knockbackForce;
 
-            state = NodeState.SUCCESS;        
+                Controller targetNPCController = controller.npcTarget.GetComponent<Controller>();
+                targetNPCController.health -= controller.attackDamage;
+                controller.lastAttackTime = Time.time;
+                targetNPCController.stunEndTime = Time.time + targetNPCController.stunDuration;
+
+                if (targetNPCController.health <= 0)
+                {
+                    if (controller.npcTarget.gameObject == controller.mainCamera.GetComponent<CameraFollow>().target.gameObject)
+                    {
+                        controller.spawner.isTargetDead = true;
+                    }
+                    UnityEngine.Object.Destroy(controller.npcTarget.gameObject);
+                }
+
+                // Update the time of the last attack
+                timeSinceLastAttack = Time.time;
+
+                state = NodeState.SUCCESS;
+            }
+            else
+            {
+                // Not enough time has passed since the last attack
+                state = NodeState.FAILURE;
+            }
         }
         else
         {
+            // No target to attack
             state = NodeState.FAILURE;
         }
+
         return state;
     }
 }
