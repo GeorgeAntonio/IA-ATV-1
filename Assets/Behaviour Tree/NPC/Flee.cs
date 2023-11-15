@@ -64,6 +64,7 @@ public class Flee : Node
 
     public override NodeState Evaluate()
     {
+        controller.patrolPoint = null;
         Vector2 fleeDirection;
         // Health is 20% or less, flee towards health potions
         Transform nearestPotion = FindNearestHealthPotion();
@@ -72,7 +73,10 @@ public class Flee : Node
         {            
             if (nearestPotion != null)
             {
-                fleeDirection = (nearestPotion.position - controller.transform.position).normalized;                
+                fleeDirection = (nearestPotion.position - controller.transform.position).normalized;
+                if(controller.isHealing && nearestPotion == controller.selectedPotion) {
+                    controller.Heal(controller.healthPotionValue, nearestPotion);
+                }
             }
             else
             {

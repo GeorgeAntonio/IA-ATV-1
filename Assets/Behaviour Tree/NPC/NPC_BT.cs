@@ -10,9 +10,15 @@ public class NPC_BT : BehaviorTree.Tree
     {
         controller = gameObject.GetComponent<Controller>();
         Node root = new Selector(new List<Node>{
-                new BehaviorTree.Sequence(new List<Node> { new CheckEnoughHealth(controller), new CheckEnemyOnRange(controller),  new Flee(controller) }),
-                new BehaviorTree.Sequence(new List<Node> { new CheckEnemyOnRange(controller), new Chase(controller), new CheckEnemyAttackRange(controller), new Attack(controller) }),
-                new BehaviorTree.Sequence(new List<Node>{ new CheckPatrolRange(controller), new Patrol(controller)}),
+                new CheckStun(controller),
+                new BehaviorTree.Sequence(new List<Node> { new CheckEnoughHealth(controller), 
+                                                           new CheckEnemyOnRange(controller),  
+                                                           new Flee(controller) }),
+                new BehaviorTree.Sequence(new List<Node> { new CheckEnemyOnRange(controller), 
+                                                           new Chase(controller),                                                            
+                                                           new Attack(controller) }),
+                new BehaviorTree.Sequence(new List<Node>{  new CheckPatrolRange(controller), 
+                                                           new Patrol(controller)}),
                 new Idle(controller)            
         }); 
         return root;

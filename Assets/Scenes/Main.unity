@@ -506,15 +506,21 @@ MonoBehaviour:
   health: 100
   maxHealth: 100
   attackDamage: 10
+  healthPotionValue: 50
   attackCooldown: 2
   knockbackForce: 2
   patrolCircleRadius: 10
   stunDuration: 0.3
   fleeHealthThreshold: 0.2
+  isHealing: 0
   patrolPoint: {fileID: 0}
   npcToChase: {fileID: 0}
   npcToAttack: {fileID: 0}
   npcTarget: {fileID: 0}
+<<<<<<< HEAD
+  selectedPotion: {fileID: 0}
+=======
+>>>>>>> fc42982735bc950c23028765849d28c449f5dfac
   rb: {fileID: 0}
   mainCamera: {fileID: 0}
   spawner: {fileID: 0}
@@ -23638,6 +23644,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3940779258917459190, guid: 5dae8f53b55fc6345b94e1944abb8485,
+        type: 3}
+      propertyPath: attackDamage
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5401752458764932146, guid: 5dae8f53b55fc6345b94e1944abb8485,
         type: 3}
       propertyPath: m_RootOrder
@@ -24054,6 +24065,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3940779258917459190, guid: 5dae8f53b55fc6345b94e1944abb8485,
+        type: 3}
+      propertyPath: attackDamage
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5401752458764932146, guid: 5dae8f53b55fc6345b94e1944abb8485,
         type: 3}
       propertyPath: m_RootOrder
