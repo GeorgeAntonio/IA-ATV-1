@@ -6,7 +6,7 @@ using UnityEngine;
 public class Controller : MonoBehaviour { 
     public float moveSpeed = 5f;
     public float chaseRange = 20f;
-    public float attackRange = 1.5f;
+    public float attackRange = 0.5f;
     public int health = 100;
     public int maxHealth = 100;
     public int attackDamage = 10;
@@ -58,7 +58,7 @@ public class Controller : MonoBehaviour {
 
         moveSpeed = Random.Range(5f, 8f);
         chaseRange = Random.Range(7f, 15f);
-        attackRange = Random.Range(1f, 2f);
+        attackRange = Random.Range(.5f, .7f);
         health = Random.Range(50, 130);
         maxHealth = Random.Range(50, 130);
         attackDamage = Random.Range(10, 30);
