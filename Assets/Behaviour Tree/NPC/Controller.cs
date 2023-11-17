@@ -18,7 +18,7 @@ public class Controller : MonoBehaviour {
     public float fleeHealthThreshold = 0.2f;
     public bool isHealing;
 
-    public Transform patrolPoint, npcToChase, npcToAttack, npcTarget, selectedPotion;    
+    public Transform patrolPoint, npcTarget, selectedPotion;    
     public Rigidbody2D rb;
     public GameObject mainCamera;
     public NPCSpawner spawner;
