@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BehaviorTree;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 
 public class Flee : Node
@@ -11,11 +12,11 @@ public class Flee : Node
     {
         this.controller = controller;
     }
-    private Transform FindNPCToFleeFrom()
+    private UnityEngine.Transform FindNPCToFleeFrom()
     {
         GameObject[] npcs = GameObject.FindGameObjectsWithTag("NPC");
 
-        Transform npcToFleeFrom = null;
+        UnityEngine.Transform npcToFleeFrom = null;
         float highestHealthDifference = 0f;
 
         foreach (GameObject npc in npcs)
@@ -40,11 +41,11 @@ public class Flee : Node
 
         return npcToFleeFrom;
     }
-    private Transform FindNearestHealthPotion()
+    private UnityEngine.Transform FindNearestHealthPotion()
     {
         GameObject[] healthPotions = GameObject.FindGameObjectsWithTag("HealthPotion");
 
-        Transform nearestPotion = null;
+        UnityEngine.Transform nearestPotion = null;
         float nearestPotionDistance = float.MaxValue;
 
         foreach (GameObject potion in healthPotions)
@@ -67,23 +68,32 @@ public class Flee : Node
         controller.patrolPoint = null;
         Vector2 fleeDirection;
         // Health is 20% or less, flee towards health potions
-        Transform nearestPotion = FindNearestHealthPotion();
+        UnityEngine.Transform nearestPotion = FindNearestHealthPotion();
         Debug.Log(this.ToString());
         if (!controller.IsStunned())
-        {            
-            if (nearestPotion != null)
+        {
+            if (controller.npcTarget != null)
             {
-                fleeDirection = (nearestPotion.position - controller.transform.position).normalized;
-                if(controller.isHealing && nearestPotion == controller.selectedPotion) {
-                    controller.Heal(controller.healthPotionValue, nearestPotion);
+                if (nearestPotion != null)
+                {
+                    fleeDirection = (nearestPotion.position - controller.transform.position).normalized;
+                    if (controller.isHealing && nearestPotion == controller.selectedPotion)
+                    {
+                        controller.Heal(controller.healthPotionValue, nearestPotion);
+                    }
                 }
+                else
+                {
+                    fleeDirection = (controller.transform.position - controller.npcTarget.transform.position).normalized;
+                }
+                controller.rb.velocity = fleeDirection * controller.moveSpeed;
+                state = NodeState.RUNNING;
             }
             else
             {
-                fleeDirection = controller.npcTarget.gameObject.transform.position * -1;
+                controller.npcTarget = null;
+                state = NodeState.SUCCESS;
             }
-            controller.rb.velocity = fleeDirection * controller.moveSpeed;
-            state = NodeState.RUNNING;
         }
         return state;
     }

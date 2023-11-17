@@ -45,6 +45,7 @@ public class Attack : Node
                 timeSinceLastAttack = Time.time;
 
                 state = NodeState.SUCCESS;
+                controller.npcTarget = null;
             }
             else
             {
