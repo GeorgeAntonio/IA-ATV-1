@@ -12,12 +12,7 @@ public class Flee : Node
     {
         this.controller = controller;
     }
-<<<<<<< HEAD
     private UnityEngine.Transform FindNPCToFleeFrom()
-=======
-
-    private Transform FindNPCToFleeFrom()
->>>>>>> 1229c85d42bebef9f4a5c425c0edaba9e22b62f5
     {
         GameObject[] npcs = GameObject.FindGameObjectsWithTag("NPC");
 
@@ -49,13 +44,7 @@ public class Flee : Node
 
         return npcToFleeFrom;
     }
-<<<<<<< HEAD
     private UnityEngine.Transform FindNearestHealthPotion()
-=======
-
-
-    private Transform FindNearestHealthPotion()
->>>>>>> 1229c85d42bebef9f4a5c425c0edaba9e22b62f5
     {
         GameObject[] healthPotions = GameObject.FindGameObjectsWithTag("HealthPotion");
 
@@ -82,18 +71,11 @@ public class Flee : Node
         Vector2 fleeDirection;
 
         // Health is 20% or less, flee towards health potions
-<<<<<<< HEAD
         UnityEngine.Transform nearestPotion = FindNearestHealthPotion();
-=======
-        Transform nearestPotion = FindNearestHealthPotion();
-        Transform npcToFleeFrom = FindNPCToFleeFrom();
-
->>>>>>> 1229c85d42bebef9f4a5c425c0edaba9e22b62f5
         Debug.Log(this.ToString());
 
         if (!controller.IsStunned())
         {
-<<<<<<< HEAD
             if (controller.npcTarget != null)
             {
                 if (nearestPotion != null)
@@ -103,15 +85,6 @@ public class Flee : Node
                     {
                         controller.Heal(controller.healthPotionValue, nearestPotion);
                     }
-=======
-            if (nearestPotion != null)
-            {
-                fleeDirection = (nearestPotion.position - controller.transform.position).normalized;
-
-                if (controller.isHealing && nearestPotion == controller.selectedPotion)
-                {
-                    controller.Heal(controller.healthPotionValue, nearestPotion);
->>>>>>> 1229c85d42bebef9f4a5c425c0edaba9e22b62f5
                 }
                 else
                 {
@@ -127,18 +100,9 @@ public class Flee : Node
             }
             else
             {
-<<<<<<< HEAD
                 controller.npcTarget = null;
                 state = NodeState.SUCCESS;
             }
-=======
-                // No NPC to flee from, maintain current direction (or set a default direction)
-                fleeDirection = Vector2.zero;
-            }
-
-            controller.rb.velocity = fleeDirection * controller.moveSpeed;
-            state = NodeState.RUNNING;
->>>>>>> 1229c85d42bebef9f4a5c425c0edaba9e22b62f5
         }
 
         return state;
