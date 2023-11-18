@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Cainos.PixelArtTopDown_Basic
@@ -27,7 +26,12 @@ namespace Cainos.PixelArtTopDown_Basic
 
         private void Update()
         {
-            if (target == null) return;
+            // Check if the target is null or destroyed
+            if (target == null || !target.gameObject.activeSelf)
+            {
+                SwitchTargetOnDestroy();
+                return;
+            }
 
             targetPos = target.position + offset;
             transform.position = Vector3.Lerp(transform.position, targetPos, lerpSpeed * Time.deltaTime);
@@ -37,6 +41,21 @@ namespace Cainos.PixelArtTopDown_Basic
 
             // Deactivate objects outside the camera's view
             DeactivateObjects();
+        }
+
+        public void SetTarget(Transform newTarget)
+        {
+            target = newTarget;
+            offset = transform.position - target.position;
+        }
+
+        private void SwitchTargetOnDestroy()
+        {
+            Transform newTarget = FindClosestNPC();
+            if (newTarget != null)
+            {
+                SetTarget(newTarget);
+            }
         }
 
         private void ReactivateObjects()
@@ -75,6 +94,30 @@ namespace Cainos.PixelArtTopDown_Basic
                     deactivatedObjects.Add(collider.gameObject);
                 }
             }
+        }
+
+        private Transform FindClosestNPC()
+        {
+            GameObject[] npcs = GameObject.FindGameObjectsWithTag("NPC");
+
+            Transform closestNPC = null;
+            float closestDistance = float.MaxValue;
+
+            foreach (GameObject npc in npcs)
+            {
+                if (npc != null && npc.activeSelf)
+                {
+                    float distance = Vector2.Distance(transform.position, npc.transform.position);
+
+                    if (distance < closestDistance)
+                    {
+                        closestNPC = npc.transform;
+                        closestDistance = distance;
+                    }
+                }
+            }
+
+            return closestNPC;
         }
     }
 }

@@ -28,7 +28,7 @@ public class Patrol : Node
                 if (Vector2.Distance(controller.transform.position, controller.patrolPoint.position) <= controller.patrolCircleRadius)
                 {
                     // Change patrol point when reached or within a certain range
-                    controller.patrolPoint = controller.GetRandomPatrolPoint();
+                    //controller.patrolPoint = controller.GetRandomPatrolPoint();
 
                     // Calculate a new path to the patrol point using A* algorithm
                     path = AStar(controller.transform.position, controller.patrolPoint.position);
@@ -68,7 +68,7 @@ public class Patrol : Node
         List<Vector2> openSet = new List<Vector2>();
         // Nodes already evaluated
         HashSet<Vector2> closedSet = new HashSet<Vector2>();
-        // Cost from start along best known path
+        // Cost from start along best-known path
         Dictionary<Vector2, float> gScore = new Dictionary<Vector2, float>();
         // Estimated total cost from start to goal through y
         Dictionary<Vector2, float> fScore = new Dictionary<Vector2, float>();
