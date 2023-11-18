@@ -8,16 +8,27 @@ public class Attack : Node
 {
     private Controller controller;
     private float timeSinceLastAttack;
+    private bool isEnemyDestroyed;
 
     public Attack(Controller controller)
     {
         this.controller = controller;
         this.timeSinceLastAttack = 0f;
+        this.isEnemyDestroyed = false;
     }
 
     public override NodeState Evaluate()
     {
         Debug.Log(this.ToString());
+
+        // Check if the enemy is destroyed
+        if (isEnemyDestroyed)
+        {
+            // Enemy is destroyed, switch to patrol
+            state = NodeState.FAILURE;
+            isEnemyDestroyed = false; // Reset the flag
+            return state;
+        }
 
         if (controller.npcTarget != null)
         {
@@ -38,7 +49,11 @@ public class Attack : Node
                     {
                         controller.spawner.isTargetDead = true;
                     }
+
                     UnityEngine.Object.Destroy(controller.npcTarget.gameObject);
+
+                    // Set the flag to indicate that the enemy is destroyed
+                    isEnemyDestroyed = true;
                 }
 
                 // Update the time of the last attack
